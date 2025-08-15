@@ -1,10 +1,11 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>THD – Holder Downloads (EN/TH)</title>
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>THD – Holder Downloads (EN/TH)</title>
+<style>
     :root{
       --bg1:#0ea5e9; /* sky */
       --bg2:#7c3aed; /* violet */
@@ -58,123 +59,118 @@
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <div class="header">
-      <div class="title" data-i18n="app_title">THD – Holder Downloads</div>
-      <div class="lang">
-        <button class="btn ghost" id="btn-th">ไทย</button>
-        <button class="btn ghost" id="btn-en">English</button>
-      </div>
-    </div>
-
-    <div class="panel">
-      <div class="row" style="justify-content:space-between; align-items:center">
-        <div>
-          <div class="pill" id="network-pill">Polygon • 137</div>
-          <div class="status">
-            <span class="badge" id="addr-badge">–</span>
-            <span class="badge" id="hold-badge" data-i18n="badge_locked">Locked</span>
-          </div>
-        </div>
-        <div class="row">
-          <button class="btn primary" id="connect-btn" data-i18n="btn_connect">Connect Wallet</button>
-          <button class="btn" id="check-btn" data-i18n="btn_check">Re-check Access</button>
-        </div>
-      </div>
-      <div class="warn" data-i18n="hint_note" style="margin-top:8px">
+<div class="wrap">
+<div class="header">
+<div class="title" data-i18n="app_title">THD – Holder Downloads</div>
+<div class="lang">
+<button class="btn ghost" id="btn-th">ไทย</button>
+<button class="btn ghost" id="btn-en">English</button>
+</div>
+</div>
+<div class="panel">
+<div class="row" style="justify-content:space-between; align-items:center">
+<div>
+<div class="pill" id="network-pill">Polygon • 137</div>
+<div class="status">
+<span class="badge" id="addr-badge">–</span>
+<span class="badge" data-i18n="badge_locked" id="hold-badge">Locked</span>
+</div>
+</div>
+<div class="row">
+<button class="btn primary" data-i18n="btn_connect" id="connect-btn">Connect Wallet</button>
+<button class="btn" data-i18n="btn_check" id="check-btn">Re-check Access</button>
+</div>
+<button class="btn" data-i18n="btn_wc" id="wc-btn">WalletConnect</button></div>
+<div class="warn" data-i18n="hint_note" style="margin-top:8px">
         Note: client-side gating only. For stronger protection, use one-time links from a server.
       </div>
-    </div>
-
-    <div class="grid" id="links-grid">
-      <!-- Card 1 -->
-      <div class="card">
-        <h3 data-i18n="l1_title">THD Book Season 1 (Online Viewer)</h3>
-        <div class="meta">CID: <code>bafkreibnc4d4kwdvkeov4pevjhrjdfbouyedg6ekimyhcfpa3a5byd4fv4</code></div>
-        <div class="links" style="margin-top:12px">
-          <a id="l1" href="#" target="_blank" rel="noopener noreferrer" data-i18n="btn_open">Open</a>
-        </div>
-        <div class="lock" data-locked>
-          <div class="lockbox">
-            <div>🔒 <span data-i18n="locked">Holder-only</span></div>
-            <div class="small" data-i18n="locked_hint">Connect wallet & verify ownership to unlock.</div>
-          </div>
-        </div>
-      </div>
-      <!-- Card 2 -->
-      <div class="card">
-        <h3 data-i18n="l2_title">THD Book Season 1 (PDF Download)</h3>
-        <div class="meta">CID: <code>bafybeibc6khnmexrelbsl65kuqsazn4cv5qply6lgjbtegvjascf7igtwi</code></div>
-        <div class="links" style="margin-top:12px">
-          <a id="l2" href="#" target="_blank" rel="noopener noreferrer" download data-i18n="btn_download">Download</a>
-        </div>
-        <div class="lock" data-locked>
-          <div class="lockbox">
-            <div>🔒 <span data-i18n="locked">Holder-only</span></div>
-            <div class="small" data-i18n="locked_hint">Connect wallet & verify ownership to unlock.</div>
-          </div>
-        </div>
-      </div>
-      <!-- Card 3 -->
-      <div class="card">
-        <h3 data-i18n="l3_title">High‑Quality Ambient (Album)</h3>
-        <div class="meta">CID: <code>bafybeie5zwttgpwi3ftjoxhuofropgocwnnmnxp7gxeumh3bux74p5zw5i</code></div>
-        <div class="links" style="margin-top:12px">
-          <a id="l3" href="#" target="_blank" rel="noopener noreferrer" data-i18n="btn_open">Open</a>
-        </div>
-        <div class="lock" data-locked>
-          <div class="lockbox">
-            <div>🔒 <span data-i18n="locked">Holder-only</span></div>
-            <div class="small" data-i18n="locked_hint">Connect wallet & verify ownership to unlock.</div>
-          </div>
-        </div>
-      </div>
-      <!-- Card 4 -->
-      <div class="card">
-        <h3 data-i18n="l4_title">High‑Quality Art Pack</h3>
-        <div class="meta" id="l4-meta">CID: <code>bafybeifr3hnlhpfthxcbm4zhfetnqgl3l2jqvyxgtyhxepbj6legxmpqpi</code></div>
-        <div class="links" style="margin-top:12px">
-          <a id="l4" href="#" target="_blank" rel="noopener noreferrer" data-i18n="btn_open">Open</a>
-        </div>
-        <div class="lock" data-locked>
-          <div class="lockbox">
-            <div>🔒 <span data-i18n="locked">Holder-only</span></div>
-            <div class="small" data-i18n="locked_hint">Connect wallet & verify ownership to unlock.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="panel">
-      <h4 data-i18n="support_title">Having trouble?</h4>
-      <p class="muted" data-i18n="support_desc">Send us a short message. Your wallet and check-log will be attached automatically.</p>
-      <div class="row">
-        <div style="flex:1 1 360px">
-          <label data-i18n="form_msg">Your message</label>
-          <textarea id="issue-text" rows="4" placeholder="Describe the issue…"></textarea>
-        </div>
-        <div style="flex:0 0 200px; align-self:flex-end; display:flex; gap:10px; flex-wrap:wrap">
-          <button class="btn" id="copy-log" data-i18n="btn_copy">Copy Debug</button>
-          <a class="btn primary" id="send-mail" href="#" data-i18n="btn_email">Email Support</a>
-        </div>
-      </div>
-      <details style="margin-top:12px">
-        <summary data-i18n="log_title">Ownership check log</summary>
-        <pre id="log" style="white-space:pre-wrap; font-size:12px; line-height:1.4; color:#c8e5ff"></pre>
-      </details>
-      <div class="footer" data-i18n="footer_note">We verify that your wallet holds at least one NFT from the configured collections on Polygon (chainId 137). No data is stored on our servers.</div>
-    </div>
-
-    <div class="footer">
-      <span>© THD • <span data-i18n="footer_rights">For holders only</span></span>
-    </div>
-  </div>
-
-  <!-- Ethers v6 (primary) -->
-  <script src="https://cdn.jsdelivr.net/npm/ethers@6.13.2/dist/ethers.umd.min.js"></script>
-  <!-- Ethers v5 (fallback) -->
-  <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.min.js"></script>
-  <script>
+</div>
+<div class="grid" id="links-grid">
+<!-- Card 1 -->
+<div class="card">
+<h3 data-i18n="l1_title">THD Book Season 1 (Online Viewer)</h3>
+<div class="meta">CID: <code>bafkreibnc4d4kwdvkeov4pevjhrjdfbouyedg6ekimyhcfpa3a5byd4fv4</code></div>
+<div class="links" style="margin-top:12px">
+<a data-i18n="btn_open" href="#" id="l1" rel="noopener noreferrer" target="_blank">Open</a>
+</div>
+<div class="lock" data-locked="">
+<div class="lockbox">
+<div>🔒 <span data-i18n="locked">Holder-only</span></div>
+<div class="small" data-i18n="locked_hint">Connect wallet &amp; verify ownership to unlock.</div>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="card">
+<h3 data-i18n="l2_title">THD Book Season 1 (PDF Download)</h3>
+<div class="meta">CID: <code>bafybeibc6khnmexrelbsl65kuqsazn4cv5qply6lgjbtegvjascf7igtwi</code></div>
+<div class="links" style="margin-top:12px">
+<a data-i18n="btn_download" download="" href="#" id="l2" rel="noopener noreferrer" target="_blank">Download</a>
+</div>
+<div class="lock" data-locked="">
+<div class="lockbox">
+<div>🔒 <span data-i18n="locked">Holder-only</span></div>
+<div class="small" data-i18n="locked_hint">Connect wallet &amp; verify ownership to unlock.</div>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="card">
+<h3 data-i18n="l3_title">High‑Quality Ambient (Album)</h3>
+<div class="meta">CID: <code>bafybeie5zwttgpwi3ftjoxhuofropgocwnnmnxp7gxeumh3bux74p5zw5i</code></div>
+<div class="links" style="margin-top:12px">
+<a data-i18n="btn_open" href="#" id="l3" rel="noopener noreferrer" target="_blank">Open</a>
+</div>
+<div class="lock" data-locked="">
+<div class="lockbox">
+<div>🔒 <span data-i18n="locked">Holder-only</span></div>
+<div class="small" data-i18n="locked_hint">Connect wallet &amp; verify ownership to unlock.</div>
+</div>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="card">
+<h3 data-i18n="l4_title">High‑Quality Art Pack</h3>
+<div class="meta" id="l4-meta">CID: <code>bafybeifr3hnlhpfthxcbm4zhfetnqgl3l2jqvyxgtyhxepbj6legxmpqpi</code></div>
+<div class="links" style="margin-top:12px">
+<a data-i18n="btn_open" href="#" id="l4" rel="noopener noreferrer" target="_blank">Open</a>
+</div>
+<div class="lock" data-locked="">
+<div class="lockbox">
+<div>🔒 <span data-i18n="locked">Holder-only</span></div>
+<div class="small" data-i18n="locked_hint">Connect wallet &amp; verify ownership to unlock.</div>
+</div>
+</div>
+</div>
+</div>
+<div class="panel">
+<h4 data-i18n="support_title">Having trouble?</h4>
+<p class="muted" data-i18n="support_desc">Send us a short message. Your wallet and check-log will be attached automatically.</p>
+<div class="row">
+<div style="flex:1 1 360px">
+<label data-i18n="form_msg">Your message</label>
+<textarea id="issue-text" placeholder="Describe the issue…" rows="4"></textarea>
+</div>
+<div style="flex:0 0 200px; align-self:flex-end; display:flex; gap:10px; flex-wrap:wrap">
+<button class="btn" data-i18n="btn_copy" id="copy-log">Copy Debug</button>
+<a class="btn primary" data-i18n="btn_email" href="#" id="send-mail">Email Support</a>
+</div>
+</div>
+<details style="margin-top:12px">
+<summary data-i18n="log_title">Ownership check log</summary>
+<pre id="log" style="white-space:pre-wrap; font-size:12px; line-height:1.4; color:#c8e5ff"></pre>
+</details>
+<div class="footer" data-i18n="footer_note">We verify that your wallet holds at least one NFT from the configured collections on Polygon (chainId 137). No data is stored on our servers.</div>
+</div>
+<div class="footer">
+<span>© THD • <span data-i18n="footer_rights">For holders only</span></span>
+</div>
+</div>
+<!-- Ethers v6 (primary) -->
+<script src="https://cdn.jsdelivr.net/npm/ethers@6.13.2/dist/ethers.umd.min.js"></script>
+<!-- Ethers v5 (fallback) -->
+<script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@walletconnect/ethereum-provider@2.11.0/dist/index.umd.min.js"></script>
+<script>
   (function(){
     // ====== CONFIG ======
     const IPFS_GATEWAY = 'https://ipfs.io/ipfs/'; // You can swap to another gateway
@@ -218,6 +214,7 @@
         app_title: 'THD – หน้าดาวน์โหลดสำหรับผู้ถือ',
         btn_connect: 'เชื่อมต่อกระเป๋า',
         btn_check: 'ตรวจสอบสิทธิ์อีกครั้ง',
+        btn_wc: 'เชื่อมต่อด้วย WalletConnect',
         badge_locked: 'ล็อกไว้',
         locked: 'สำหรับผู้ถือเท่านั้น',
         locked_hint: 'เชื่อมต่อกระเป๋าและยืนยันการถือครองเพื่อปลดล็อก',
@@ -396,6 +393,57 @@
         logEl.textContent || '(empty)'
       ].join('\n'));
       return `mailto:${to}?subject=${subject}&body=${body}`;
+    }
+
+    
+    async function connectWithWalletConnect(){
+      try{
+        if(!window.WalletConnectEthereumProvider){
+          alert('WalletConnect script not loaded.');
+          throw new Error('wc-not-loaded');
+        }
+        // >>>> IMPORTANT: Replace with your WalletConnect Cloud projectId <<<<
+        const WC_PROJECT_ID = 'ba3a040708c3e27acefb4eb4b3c5d9a8';
+        if(WC_PROJECT_ID.startsWith('REPLACE')){
+          alert('Please set your WalletConnect projectId in the code before using WalletConnect.');
+          addLog('WalletConnect projectId missing. Set WC_PROJECT_ID.');
+          return;
+        }
+        const wc = await window.WalletConnectEthereumProvider.init({
+          projectId: WC_PROJECT_ID,
+          chains: [137],
+          showQrModal: true,
+          methods: ['eth_sendTransaction','personal_sign','eth_signTypedData','eth_signTypedData_v4'],
+          optionalMethods: ['eth_sign'],
+        });
+        await wc.enable();
+        // Wrap WC provider with ethers
+        if(window.ethers && window.ethers.BrowserProvider){
+          provider = new window.ethers.BrowserProvider(wc);
+          signer = await provider.getSigner();
+        } else if(window.ethers && window.ethers.providers){
+          provider = new window.ethers.providers.Web3Provider(wc);
+          signer = provider.getSigner();
+        } else {
+          alert('Ethers not loaded.');
+          throw new Error('no-ethers');
+        }
+        userAddress = await signer.getAddress();
+        const net = await provider.getNetwork();
+        addrBadge.textContent = userAddress.slice(0,6)+'…'+userAddress.slice(-4);
+        addLog(`WC connected ${userAddress} on chain ${Number(net.chainId)}`);
+        if(Number(net.chainId) !== 137){
+          addLog('WalletConnect: requesting switch to Polygon…');
+          try{
+            await wc.request({ method:'wallet_switchEthereumChain', params:[{ chainId: '0x89' }] });
+          }catch(err){
+            addLog('Switch via WC failed: '+(err && err.message || err));
+          }
+        }
+        await checkAccess();
+      }catch(e){
+        addLog('WalletConnect error: '+(e && e.message || e));
+      }
     }
 
     // ===== Events =====
