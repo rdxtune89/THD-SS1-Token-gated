@@ -169,7 +169,7 @@
 <!-- Ethers v6 (primary) -->
 <script src="https://cdn.jsdelivr.net/npm/ethers@6.13.2/dist/ethers.umd.min.js"></script>
 <!-- Ethers v5 (fallback) -->
-<script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@walletconnect/ethereum-provider@2.11.0/dist/index.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.min.js"></script><script src="https://unpkg.com/web3modal@1.9.12/dist/index.js"></script><script src="https://unpkg.com/@walletconnect/web3-provider@1.8.0/dist/umd/index.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@walletconnect/ethereum-provider@2.11.0/dist/index.umd.min.js"></script>
 <script>
   (function(){
     // ====== CONFIG ======
@@ -278,7 +278,7 @@
     let provider, signer, userAddress, chainIdHex;
 
     async function ensureProvider(){
-      if(!window.ethereum){ alert('No wallet found. Please install MetaMask or a compatible wallet.'); throw new Error('no-ethereum'); }
+      if(!window.ethereum){ addLog('No injected wallet detected – falling back to WalletConnect.'); await connectWithWalletConnect(); throw new Error('no-ethereum'); }
       // Try v6 first
       if(window.ethers && window.ethers.BrowserProvider){
         provider = new window.ethers.BrowserProvider(window.ethereum);
@@ -293,7 +293,7 @@
     }
 
     async function connect(){
-      await ensureProvider();
+      try{ await ensureProvider(); }catch(e){ if((e&&e.message)==='no-ethereum'){ return; } else { throw e; } }
       try{ await window.ethereum.request({ method:'eth_requestAccounts' }); }catch(e){ addLog('User rejected connection'); throw e; }
       const net = await provider.getNetwork();
       chainIdHex = '0x'+ Number(net.chainId).toString(16);
@@ -328,7 +328,7 @@
     const ABI1155 = ["function balanceOf(address account, uint256 id) view returns (uint256)"]; 
 
     async function checkAccess(){
-      await ensureProvider();
+      try{ await ensureProvider(); }catch(e){ if((e&&e.message)==='no-ethereum'){ return; } else { throw e; } }
       const net = await provider.getNetwork();
       const onPolygon = Number(net.chainId) === 137;
       $('#network-pill').textContent = `Polygon • ${onPolygon? '137':'wrong chain'}`;
@@ -398,7 +398,7 @@
     
     async function connectWithWalletConnect(){
       try{
-        if(!window.WalletConnectEthereumProvider){
+        if(!(window.WalletConnectEthereumProvider || window.WalletConnectProvider)){
           alert('WalletConnect script not loaded.');
           throw new Error('wc-not-loaded');
         }
@@ -409,7 +409,7 @@
           addLog('WalletConnect projectId missing. Set WC_PROJECT_ID.');
           return;
         }
-        const wc = await window.WalletConnectEthereumProvider.init({
+        const wc = await window.WalletConnectEthereumProvider ? window.WalletConnectEthereumProvider.init : (async (opts)=> new window.WalletConnectProvider.default({ rpc: { 137: 'https://polygon-rpc.com' }, qrcode: true }))({
           projectId: WC_PROJECT_ID,
           chains: [137],
           showQrModal: true,
@@ -442,7 +442,7 @@
         }
         await checkAccess();
       }catch(e){
-        addLog('WalletConnect error: '+(e && e.message || e));
+        addLog('WalletConnect ready: '+(!!window.WalletConnectProvider)+' / modal: '+(!!window.Web3Modal)); addLog('WalletConnect error: '+(e && e.message || e));
       }
     }
 
