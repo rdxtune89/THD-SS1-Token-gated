@@ -293,7 +293,7 @@
     }
 
     async function connect(){
-      try{ try{ await ensureProvider(); }catch(e){ if((e&&e.message)==='no-ethereum'){ addLog('Skipping injected connect (none).'); return; } else { throw e; } } }catch(e){ if((e&&e.message)==='no-ethereum'){ return; } else { throw e; } }
+      try{ try{ try{ await ensureProvider(); }catch(e){ if((e&&e.message)==='no-ethereum'){ addLog('Skipping injected connect (none).'); return; } else { throw e; } } }catch(e){ if((e&&e.message)==='no-ethereum'){ addLog('Skipping injected connect (none).'); return; } else { throw e; } } }catch(e){ if((e&&e.message)==='no-ethereum'){ return; } else { throw e; } }
       try{ await window.ethereum.request({ method:'eth_requestAccounts' }); }catch(e){ addLog('User rejected connection'); throw e; }
       const net = await provider.getNetwork();
       chainIdHex = '0x'+ Number(net.chainId).toString(16);
@@ -328,7 +328,7 @@
     const ABI1155 = ["function balanceOf(address account, uint256 id) view returns (uint256)"]; 
 
     async function checkAccess(){
-      try{ try{ await ensureProvider(); }catch(e){ if((e&&e.message)==='no-ethereum'){ addLog('Skipping injected connect (none).'); return; } else { throw e; } } }catch(e){ if((e&&e.message)==='no-ethereum'){ return; } else { throw e; } }
+      try{ try{ try{ await ensureProvider(); }catch(e){ if((e&&e.message)==='no-ethereum'){ addLog('Skipping injected connect (none).'); return; } else { throw e; } } }catch(e){ if((e&&e.message)==='no-ethereum'){ addLog('Skipping injected connect (none).'); return; } else { throw e; } } }catch(e){ if((e&&e.message)==='no-ethereum'){ return; } else { throw e; } }
       const net = await provider.getNetwork();
       const onPolygon = Number(net.chainId) === 137;
       $('#network-pill').textContent = `Polygon • ${onPolygon? '137':'wrong chain'}`;
