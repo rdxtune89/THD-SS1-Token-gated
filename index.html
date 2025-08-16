@@ -1,478 +1,112 @@
 <!DOCTYPE html>
-
-<html lang="en">
+<html lang="th">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1" name="viewport"/>
-<title>THD – Holder Downloads (EN/TH)</title>
-<style>
-    :root{
-      --bg1:#0ea5e9; /* sky */
-      --bg2:#7c3aed; /* violet */
-      --panel:#0b2240; /* deep blue */
-      --panel-2:#0f2e5c; /* lighter deep blue */
-      --accent:#22d3ee; /* cyan */
-      --good:#22c55e; --warn:#f59e0b; --bad:#ef4444;
-    }
-    html,body{height:100%;}
-    body{
-      margin:0; font-family:ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica Neue, Arial, "Apple Color Emoji","Segoe UI Emoji";
-      background: radial-gradient(1200px 800px at 20% 10%, rgba(255,255,255,.15), transparent 60%),
-                  radial-gradient(900px 700px at 80% 0%, rgba(255,255,255,.12), transparent 55%),
-                  linear-gradient(135deg, var(--bg1), var(--bg2));
-      color:#eef6ff;
-    }
-    .wrap{max-width:1100px; margin:0 auto; padding:28px 16px 60px;}
-    .header{display:flex; gap:16px; align-items:center; justify-content:space-between; flex-wrap:wrap}
-    .title{font-size:clamp(20px, 2.6vw, 34px); font-weight:800; letter-spacing:.2px}
-    .lang{display:flex; gap:8px}
-    .btn{appearance:none; border:0; padding:10px 14px; border-radius:16px; background:#ffffff1a; color:#fff; font-weight:700; cursor:pointer; transition:all .15s ease; backdrop-filter: blur(4px);}
-    .btn:hover{background:#ffffff2d}
-    .btn.primary{background:linear-gradient(90deg,#22d3ee,#38bdf8); color:#051a34}
-    .btn.primary:hover{filter:brightness(1.05)}
-    .btn.ghost{background:#ffffff14}
-    .grid{display:grid; grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); gap:16px; margin-top:18px}
-    .card{background:linear-gradient(180deg, var(--panel), var(--panel-2)); border:1px solid #ffffff22; border-radius:18px; padding:18px; position:relative; box-shadow:0 10px 30px rgba(0,0,0,.25)}
-    .card h3{margin:0 0 8px 0}
-    .meta{opacity:.8; font-size:14px}
-    .pill{display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border-radius:999px; background:#ffffff22; font-size:12px}
-    .status{display:flex; gap:10px; align-items:center; margin-top:8px}
-    .lock{position:absolute; inset:0; display:grid; place-items:center; background:linear-gradient(180deg,#00000088,#000000a6); border-radius:18px; border:1px dashed #ffffff55}
-    .lock .lockbox{display:flex; flex-direction:column; gap:10px; align-items:center}
-    .lock .small{opacity:.8; font-size:12px}
-    .links a{display:inline-flex; align-items:center; gap:10px; padding:10px 12px; border-radius:12px; background:#ffffff14; color:#fff; text-decoration:none; font-weight:700}
-    .links a:hover{background:#ffffff22}
-    .muted{opacity:.7}
-    .row{display:flex; gap:10px; flex-wrap:wrap; align-items:center}
-    .panel{background:linear-gradient(180deg, #06172f, #0a2344); border:1px solid #ffffff22; border-radius:18px; padding:16px; margin-top:20px}
-    .panel h4{margin:0 0 10px 0}
-    .inline-kv{display:flex; gap:12px; flex-wrap:wrap}
-    .inline-kv .kv{background:#ffffff12; padding:6px 10px; border-radius:10px; font-size:12px}
-    details{background:#00000020; border-radius:12px; padding:10px 12px; border:1px solid #ffffff22}
-    summary{cursor:pointer; font-weight:700}
-    .footer{opacity:.8; font-size:12px; margin-top:24px}
-    .hidden{display:none !important}
-    .badge{font-size:12px; background:#ffffff1f; padding:4px 8px; border-radius:999px}
-    .warn{color:#fff3; font-size:12px}
-    .input, textarea{width:100%; padding:10px 12px; border-radius:12px; border:1px solid #ffffff33; background:#091d3a; color:#fff}
-    label{font-size:12px; opacity:.85}
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Thronedis – Collection Gate (Any Token)</title>
+  <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; background:#0b0f14; color:#e9f0f4; padding:32px; }
+    h2 { margin: 0 0 8px }
+    a { color:#67e8f9; font-weight:600; text-decoration:none }
+    #secret { display:none; margin-top:24px }
+    #locked { margin-top:16px }
+    button { padding:10px 16px; border-radius:10px; border:0; cursor:pointer; background:#2563eb; color:white }
+    .muted { opacity:.75 }
+    code { background:#0f172a; padding:2px 6px; border-radius:6px }
+    .card { background:#0f172a; border:1px solid #1f2937; border-radius:14px; padding:18px; margin-top:20px; }
   </style>
 </head>
 <body>
-<div class="wrap">
-<div class="header">
-<div class="title" data-i18n="app_title">THD – Holder Downloads</div>
-<div class="lang">
-<button class="btn ghost" id="btn-th">ไทย</button>
-<button class="btn ghost" id="btn-en">English</button>
-</div>
-</div>
-<div class="panel">
-<div class="row" style="justify-content:space-between; align-items:center">
-<div>
-<div class="pill" id="network-pill">Polygon • 137</div>
-<div class="status">
-<span class="badge" id="addr-badge">–</span>
-<span class="badge" data-i18n="badge_locked" id="hold-badge">Locked</span>
-</div>
-</div>
-<div class="row">
-<button class="btn primary" data-i18n="btn_connect" id="connect-btn">Connect Wallet</button>
-<button class="btn" data-i18n="btn_check" id="check-btn">Re-check Access</button>
-</div>
-<button class="btn" data-i18n="btn_wc" id="wc-btn">WalletConnect</button></div>
-<div class="warn" data-i18n="hint_note" style="margin-top:8px">
-        Note: client-side gating only. For stronger protection, use one-time links from a server.
-      </div>
-</div>
-<div class="grid" id="links-grid">
-<!-- Card 1 -->
-<div class="card">
-<h3 data-i18n="l1_title">THD Book Season 1 (Online Viewer)</h3>
-<div class="meta">CID: <code>bafkreibnc4d4kwdvkeov4pevjhrjdfbouyedg6ekimyhcfpa3a5byd4fv4</code></div>
-<div class="links" style="margin-top:12px">
-<a data-i18n="btn_open" href="#" id="l1" rel="noopener noreferrer" target="_blank">Open</a>
-</div>
-<div class="lock" data-locked="">
-<div class="lockbox">
-<div>🔒 <span data-i18n="locked">Holder-only</span></div>
-<div class="small" data-i18n="locked_hint">Connect wallet &amp; verify ownership to unlock.</div>
-</div>
-</div>
-</div>
-<!-- Card 2 -->
-<div class="card">
-<h3 data-i18n="l2_title">THD Book Season 1 (PDF Download)</h3>
-<div class="meta">CID: <code>bafybeibc6khnmexrelbsl65kuqsazn4cv5qply6lgjbtegvjascf7igtwi</code></div>
-<div class="links" style="margin-top:12px">
-<a data-i18n="btn_download" download="" href="#" id="l2" rel="noopener noreferrer" target="_blank">Download</a>
-</div>
-<div class="lock" data-locked="">
-<div class="lockbox">
-<div>🔒 <span data-i18n="locked">Holder-only</span></div>
-<div class="small" data-i18n="locked_hint">Connect wallet &amp; verify ownership to unlock.</div>
-</div>
-</div>
-</div>
-<!-- Card 3 -->
-<div class="card">
-<h3 data-i18n="l3_title">High‑Quality Ambient (Album)</h3>
-<div class="meta">CID: <code>bafybeie5zwttgpwi3ftjoxhuofropgocwnnmnxp7gxeumh3bux74p5zw5i</code></div>
-<div class="links" style="margin-top:12px">
-<a data-i18n="btn_open" href="#" id="l3" rel="noopener noreferrer" target="_blank">Open</a>
-</div>
-<div class="lock" data-locked="">
-<div class="lockbox">
-<div>🔒 <span data-i18n="locked">Holder-only</span></div>
-<div class="small" data-i18n="locked_hint">Connect wallet &amp; verify ownership to unlock.</div>
-</div>
-</div>
-</div>
-<!-- Card 4 -->
-<div class="card">
-<h3 data-i18n="l4_title">High‑Quality Art Pack</h3>
-<div class="meta" id="l4-meta">CID: <code>bafybeifr3hnlhpfthxcbm4zhfetnqgl3l2jqvyxgtyhxepbj6legxmpqpi</code></div>
-<div class="links" style="margin-top:12px">
-<a data-i18n="btn_open" href="#" id="l4" rel="noopener noreferrer" target="_blank">Open</a>
-</div>
-<div class="lock" data-locked="">
-<div class="lockbox">
-<div>🔒 <span data-i18n="locked">Holder-only</span></div>
-<div class="small" data-i18n="locked_hint">Connect wallet &amp; verify ownership to unlock.</div>
-</div>
-</div>
-</div>
-</div>
-<div class="panel">
-<h4 data-i18n="support_title">Having trouble?</h4>
-<p class="muted" data-i18n="support_desc">Send us a short message. Your wallet and check-log will be attached automatically.</p>
-<div class="row">
-<div style="flex:1 1 360px">
-<label data-i18n="form_msg">Your message</label>
-<textarea id="issue-text" placeholder="Describe the issue…" rows="4"></textarea>
-</div>
-<div style="flex:0 0 200px; align-self:flex-end; display:flex; gap:10px; flex-wrap:wrap">
-<button class="btn" data-i18n="btn_copy" id="copy-log">Copy Debug</button>
-<a class="btn primary" data-i18n="btn_email" href="#" id="send-mail">Email Support</a>
-</div>
-</div>
-<details style="margin-top:12px">
-<summary data-i18n="log_title">Ownership check log</summary>
-<pre id="log" style="white-space:pre-wrap; font-size:12px; line-height:1.4; color:#c8e5ff"></pre>
-</details>
-<div class="footer" data-i18n="footer_note">We verify that your wallet holds at least one NFT from the configured collections on Polygon (chainId 137). No data is stored on our servers.</div>
-</div>
-<div class="footer">
-<span>© THD • <span data-i18n="footer_rights">For holders only</span></span>
-</div>
-</div>
-<!-- Ethers v6 (primary) -->
-<script src="https://cdn.jsdelivr.net/npm/ethers@6.13.2/dist/ethers.umd.min.js"></script>
-<!-- Ethers v5 (fallback) -->
-<script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@walletconnect/ethereum-provider@2.11.0/dist/index.umd.min.js"></script>
-<script>
-  (function(){
-    // ====== CONFIG ======
-    const IPFS_GATEWAY = 'https://ipfs.io/ipfs/'; // You can swap to another gateway
+  <h2>🔐 Thronedis – Token Gated (Any token in collection)</h2>
+  <div class="muted">Polygon (137) · Collection: <code>0x76f4E59DBBF99D025B6F1014D33843AB138e4085</code></div>
 
-    // Access unlocks if ANY check passes.
-    const COLLECTIONS = [
-      { address: '0x76f4E59DBBF99D025B6F1014D33843AB138e4085', chainId: 137, standard: 'ERC721', label: 'THD Main ERC-721' },
-    ];
+  <div id="locked" class="card">
+    <p>คุณต้องถือ NFT จากคอลเล็กชันนี้ (ชิ้นใดก็ได้) เพื่อเข้าถึงไฟล์</p>
+    <button id="connect">🔑 Connect Wallet & Verify</button>
+    <p class="muted" style="margin-top:10px;">หากคอลเล็กชันเป็น ERC‑1155 และต้องการให้หลาย tokenId ปลดล็อกได้ ให้ตั้งค่า <code>TOKEN_IDS</code> ในไฟล์นี้</p>
+  </div>
 
-    // Your 4 links (CIDs).
-    const l1CID = 'bafkreibnc4d4kwdvkeov4pevjhrjdfbouyedg6ekimyhcfpa3a5byd4fv4';
-    const l2CID = 'bafybeibc6khnmexrelbsl65kuqsazn4cv5qply6lgjbtegvjascf7igtwi';
-    const l3CID = 'bafybeie5zwttgpwi3ftjoxhuofropgocwnnmnxp7gxeumh3bux74p5zw5i';
-    const l4CID = 'bafybeifr3hnlhpfthxcbm4zhfetnqgl3l2jqvyxgtyhxepbj6legxmpqpi';
+  <div id="secret" class="card">
+    <h3>🎉 คุณมีสิทธิ์เข้าถึงแล้ว</h3>
+    <p><a href="https://ipfs.io/ipfs/bafybeigsrytimlmv4dkz2px7ke4bwco4qj2kgxsdaeaxgmvkubiuexh5cu" target="_blank">📂 ดาวน์โหลดไฟล์จาก IPFS</a></p>
+    <p class="muted">หมายเหตุ: IPFS เป็น public; ใครได้ลิงก์นี้สามารถเปิดได้ หากต้องการความปลอดภัยสูง แนะนำทำ one‑time link ผ่าน backend</p>
+  </div>
 
-    // ===== I18N =====
-    const i18n = {
-      en: {
-        app_title: 'THD – Holder Downloads',
-        btn_connect: 'Connect Wallet',
-        btn_check: 'Re-check Access',
-        badge_locked: 'Locked',
-        locked: 'Holder-only',
-        locked_hint: 'Connect wallet & verify ownership to unlock.',
-        l1_title: 'THD Book Season 1 (Online Viewer)',
-        l2_title: 'THD Book Season 1 (PDF Download)',
-        l3_title: 'High‑Quality Ambient (Album)',
-        l4_title: 'High‑Quality Art Pack',
-        btn_open: 'Open',
-        btn_download: 'Download',
-        support_title: 'Having trouble?',
-        support_desc: 'Send us a short message. Your wallet and check-log will be attached automatically.',
-        form_msg: 'Your message',
-        btn_copy: 'Copy Debug',
-        btn_email: 'Email Support',
-        log_title: 'Ownership check log',
-        footer_note: 'We verify that your wallet holds at least one NFT from the configured collections on Polygon (chainId 137). No data is stored on our servers.',
-        footer_rights: 'For holders only'
-      },
-      th: {
-        app_title: 'THD – หน้าดาวน์โหลดสำหรับผู้ถือ',
-        btn_connect: 'เชื่อมต่อกระเป๋า',
-        btn_check: 'ตรวจสอบสิทธิ์อีกครั้ง',
-        btn_wc: 'เชื่อมต่อด้วย WalletConnect',
-        badge_locked: 'ล็อกไว้',
-        locked: 'สำหรับผู้ถือเท่านั้น',
-        locked_hint: 'เชื่อมต่อกระเป๋าและยืนยันการถือครองเพื่อปลดล็อก',
-        l1_title: 'หนังสือ THD ซีซัน 1 (อ่านออนไลน์)',
-        l2_title: 'หนังสือ THD ซีซัน 1 (ดาวน์โหลด PDF)',
-        l3_title: 'เพลง Ambient คุณภาพสูง (อัลบั้ม)',
-        l4_title: 'ชุดภาพศิลป์คุณภาพสูง',
-        btn_open: 'เปิด',
-        btn_download: 'ดาวน์โหลด',
-        support_title: 'ติดปัญหาในการเข้าถึง?',
-        support_desc: 'พิมพ์ข้อความสั้น ๆ ระบบจะใส่ข้อมูลกระเป๋าและ log ให้โดยอัตโนมัติ',
-        form_msg: 'ข้อความของคุณ',
-        btn_copy: 'คัดลอก Debug',
-        btn_email: 'ส่งอีเมล',
-        log_title: 'บันทึกการตรวจสอบสิทธิ์',
-        footer_note: 'หน้านี้ตรวจสอบว่ากระเป๋าของคุณถือ NFT อย่างน้อย 1 รายการจากคอลเลกชันที่ตั้งค่าไว้บน Polygon (chainId 137) โดยไม่บันทึกข้อมูลบนเซิร์ฟเวอร์',
-        footer_rights: 'สำหรับผู้ถือเท่านั้น'
-      }
-    };
+  <script>
+    // ===== CONFIG =====
+    const CONTRACT_ADDRESS = "0x76f4E59DBBF99D025B6F1014D33843AB138e4085";
+    const NETWORK_HEX = "0x89"; // Polygon Mainnet
+    // เฉพาะกรณี ERC-1155: หากต้องการให้หลาย tokenId ภายในคอลเล็กชันปลดล็อกได้ ให้กำหนดในลิสต์นี้
+    // ถ้าไม่รู้รายการทั้งหมด แนะนำย้ายตรวจกับ backend
+    const TOKEN_IDS = []; // ตัวอย่าง: ["0","1","2"]
+    // ===================
 
-    let LANG = 'th';
+    // ERC-165 interface ids
+    const IID_ERC721  = "0x80ac58cd";
+    const IID_ERC1155 = "0xd9b67a26";
 
-    // ===== Utilities =====
-    const $ = (sel)=>document.querySelector(sel);
-    const $$ = (sel)=>document.querySelectorAll(sel);
-    const logEl = $('#log');
-    const addrBadge = $('#addr-badge');
-    const holdBadge = $('#hold-badge');
-    const lockOverlays = document.querySelectorAll('[data-locked]');
+    // Minimal ABIs
+    const ABI_ERC165  = ["function supportsInterface(bytes4 interfaceId) view returns (bool)"];
+    const ABI_ERC721  = ["function balanceOf(address owner) view returns (uint256)"];
+    const ABI_ERC1155 = ["function balanceOf(address account, uint256 id) view returns (uint256)"];
 
-    function setLang(lang){
-      LANG = lang;
-      const dict = i18n[lang] || i18n.en;
-      document.querySelectorAll('[data-i18n]').forEach(el=>{
-        const k = el.getAttribute('data-i18n');
-        if(dict[k]) el.textContent = dict[k];
-      });
-    }
-
-    function addLog(line){
-      const ts = new Date().toISOString();
-      logEl.textContent += `[${ts}] ${line}\n`;
-      logEl.scrollTop = logEl.scrollHeight;
-    }
-
-    function ipfsUrl(cid){ return IPFS_GATEWAY + cid; }
-
-    function setLinks(){
-      if(l1CID) $('#l1').href = ipfsUrl(l1CID);
-      if(l2CID) $('#l2').href = ipfsUrl(l2CID);
-      if(l3CID) $('#l3').href = ipfsUrl(l3CID);
-      const l4 = $('#l4');
-      if(l4CID){ l4.href = ipfsUrl(l4CID); $('#l4-meta').innerHTML = `CID: <code>${l4CID}</code>`; l4.classList.remove('muted'); }
-      else { l4.href = '#'; l4.setAttribute('aria-disabled','true'); $('#l4-meta').innerHTML = 'CID: <code>—</code>'; }
-    }
-
-    function unlockUI(){ lockOverlays.forEach(x=>x.classList.add('hidden')); holdBadge.textContent = 'Unlocked'; holdBadge.style.background = '#10b98155'; }
-    function lockUI(){ lockOverlays.forEach(x=>x.classList.remove('hidden')); holdBadge.textContent = (i18n[LANG]||i18n.en).badge_locked || 'Locked'; holdBadge.style.background = '#ffffff1f'; }
-
-    // ===== Web3 (ethers v6 primary, v5 fallback) =====
-    let provider, signer, userAddress, chainIdHex;
-
-    async function ensureProvider(){
-      if(!window.ethereum){ addLog('No injected wallet detected – falling back to WalletConnect.'); await connectWithWalletConnect(); throw new Error('no-ethereum'); }
-      // Try v6 first
-      if(window.ethers && window.ethers.BrowserProvider){
-        provider = new window.ethers.BrowserProvider(window.ethereum);
-        signer = await provider.getSigner();
-      } else if(window.ethers && window.ethers.providers){ // v5
-        provider = new window.ethers.providers.Web3Provider(window.ethereum);
-        signer = provider.getSigner();
-      } else {
-        alert('Ethers not loaded.');
-        throw new Error('no-ethers');
-      }
-    }
-
-    async function connect(){
-      try{ try{ try{ try{ await ensureProvider(); }catch(e){ if((e&&e.message)==='no-ethereum'){ addLog('Skipping injected connect (none).'); return; } else { throw e; } } }catch(e){ if((e&&e.message)==='no-ethereum'){ addLog('Skipping injected connect (none).'); return; } else { throw e; } } }catch(e){ if((e&&e.message)==='no-ethereum'){ addLog('Skipping injected connect (none).'); return; } else { throw e; } } }catch(e){ if((e&&e.message)==='no-ethereum'){ return; } else { throw e; } }
-      try{ await window.ethereum.request({ method:'eth_requestAccounts' }); }catch(e){ addLog('User rejected connection'); throw e; }
-      const net = await provider.getNetwork();
-      chainIdHex = '0x'+ Number(net.chainId).toString(16);
-      userAddress = (await signer.getAddress());
-      addrBadge.textContent = userAddress.slice(0,6)+'…'+userAddress.slice(-4);
-      addLog(`Connected ${userAddress} on chain ${net.chainId}`);
-      await switchToPolygon();
-      await checkAccess();
-    }
-
-    async function switchToPolygon(){
-      const POLY = '0x89';
-      try{
-        const current = await provider.getNetwork();
-        if(Number(current.chainId) === 137) return;
-        addLog('Switching to Polygon…');
-        await window.ethereum.request({ method:'wallet_switchEthereumChain', params:[{ chainId: POLY }] });
-      }catch(err){
-        if(err && err.code === 4902){
-          addLog('Polygon not found. Adding network…');
-          await window.ethereum.request({ method:'wallet_addEthereumChain', params:[{
-            chainId:'0x89', chainName:'Polygon Mainnet', nativeCurrency:{ name:'MATIC', symbol:'MATIC', decimals:18 }, rpcUrls:['https://polygon-rpc.com'], blockExplorerUrls:['https://polygonscan.com']
-          }]});
-        }else{
-          addLog('Switch network failed: '+ (err && err.message || err));
-          throw err;
-        }
-      }
-    }
-
-    const ABI721 = ["function balanceOf(address owner) view returns (uint256)"]; 
-    const ABI1155 = ["function balanceOf(address account, uint256 id) view returns (uint256)"]; 
-
-    async function checkAccess(){
-      try{ try{ try{ try{ await ensureProvider(); }catch(e){ if((e&&e.message)==='no-ethereum'){ addLog('Skipping injected connect (none).'); return; } else { throw e; } } }catch(e){ if((e&&e.message)==='no-ethereum'){ addLog('Skipping injected connect (none).'); return; } else { throw e; } } }catch(e){ if((e&&e.message)==='no-ethereum'){ addLog('Skipping injected connect (none).'); return; } else { throw e; } } }catch(e){ if((e&&e.message)==='no-ethereum'){ return; } else { throw e; } }
-      const net = await provider.getNetwork();
-      const onPolygon = Number(net.chainId) === 137;
-      $('#network-pill').textContent = `Polygon • ${onPolygon? '137':'wrong chain'}`;
-
-      if(!userAddress){ try{ userAddress = await signer.getAddress(); }catch(_){} }
-      if(!userAddress){ addLog('No address yet. Connect wallet.'); lockUI(); return false; }
-
-      if(!onPolygon){ addLog('Not on Polygon. Please switch.'); lockUI(); return false; }
-      if(!COLLECTIONS.length){ addLog('WARNING: No collections configured.'); lockUI(); return false; }
-
-      let granted = false; let lastErr = null;
-      for(const c of COLLECTIONS){
-        if(c.chainId && c.chainId !== 137){ addLog(`Skip ${c.address} (chain ${c.chainId})`); continue; }
-        try{
-          let contract;
-          if(window.ethers && window.ethers.Contract){ // v6 & v5 same name
-            contract = new window.ethers.Contract(c.address, c.standard==='ERC1155'? ABI1155: ABI721, provider);
-          }
-          if(c.standard === 'ERC721'){
-            const bal = await contract.balanceOf(userAddress);
-            const n = Number(bal.toString());
-            addLog(`ERC-721 @${c.address} balance = ${n}`);
-            if(n>0){ granted = true; break; }
-          } else if(c.standard === 'ERC1155'){
-            const ids = Array.isArray(c.tokenIds)? c.tokenIds : [0];
-            for(const id of ids){
-              const bal = await contract.balanceOf(userAddress, id);
-              const n = Number(bal.toString());
-              addLog(`ERC-1155 @${c.address} id ${id} balance = ${n}`);
-              if(n>0){ granted = true; break; }
-            }
-            if(granted) break;
-          } else {
-            addLog(`Unknown standard for ${c.address}`);
-          }
-        }catch(err){ lastErr = err; addLog(`Error checking ${c.address}: ${err && err.message || err}`); }
-      }
-
-      if(granted){
-        unlockUI();
-        addLog('ACCESS GRANTED');
-        return true;
-      } else {
-        lockUI();
-        if(lastErr) addLog('ACCESS DENIED (with errors).'); else addLog('ACCESS DENIED (no holdings).');
-        return false;
-      }
-    }
-
-    // ===== Support email =====
-    function makeMailto(){
-      const to = 'jn.vetclinic@gmail.com';
-      const subject = encodeURIComponent('THD Holder Access – Support Request');
-      const body = encodeURIComponent([
-        'Issue:',
-        $('#issue-text').value || '(no message)',
-        '',
-        '---',
-        'Wallet: '+(userAddress||'-'),
-        'Chain: Polygon (137)',
-        'Log:',
-        logEl.textContent || '(empty)'
-      ].join('\n'));
-      return `mailto:${to}?subject=${subject}&body=${body}`;
-    }
-
-    
-    async function connectWithWalletConnect(){
-      try{
-        if(!window.WalletConnectEthereumProvider){
-          alert('WalletConnect script not loaded.');
-          throw new Error('wc-not-loaded');
-        }
-        // >>>> IMPORTANT: Replace with your WalletConnect Cloud projectId <<<<
-        const WC_PROJECT_ID = 'ba3a040708c3e27acefb4eb4b3c5d9a8';
-        if(WC_PROJECT_ID.startsWith('REPLACE')){
-          alert('Please set your WalletConnect projectId in the code before using WalletConnect.');
-          addLog('WalletConnect projectId missing. Set WC_PROJECT_ID.');
-          return;
-        }
-        const wc = await window.WalletConnectEthereumProvider.init({
-          projectId: WC_PROJECT_ID,
-          chains: [137],
-          showQrModal: true,
-          methods: ['eth_sendTransaction','personal_sign','eth_signTypedData','eth_signTypedData_v4'],
-          optionalMethods: ['eth_sign'],
+    async function ensurePolygon() {
+      const chainId = await window.ethereum.request({ method: "eth_chainId" });
+      if (chainId !== NETWORK_HEX) {
+        await window.ethereum.request({
+          method: "wallet_switchEthereumChain",
+          params: [{ chainId: NETWORK_HEX }]
         });
-        await wc.enable();
-        // Wrap WC provider with ethers
-        if(window.ethers && window.ethers.BrowserProvider){
-          provider = new window.ethers.BrowserProvider(wc);
-          signer = await provider.getSigner();
-        } else if(window.ethers && window.ethers.providers){
-          provider = new window.ethers.providers.Web3Provider(wc);
-          signer = provider.getSigner();
+      }
+    }
+
+    async function detectStandard(provider) {
+      const c165 = new ethers.Contract(CONTRACT_ADDRESS, ABI_ERC165, provider);
+      try {
+        const is721  = await c165.supportsInterface(IID_ERC721);
+        const is1155 = await c165.supportsInterface(IID_ERC1155);
+        if (is1155) return "ERC1155";
+        if (is721)  return "ERC721";
+      } catch {}
+      return "ERC721"; // fallback
+    }
+
+    async function verifyAccess() {
+      if (!window.ethereum) { alert("กรุณาติดตั้ง MetaMask"); return; }
+
+      await ensurePolygon();
+      const [account] = await window.ethereum.request({ method: "eth_requestAccounts" });
+
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const signer   = provider.getSigner();
+      const standard = await detectStandard(provider);
+
+      let hasAccess = false;
+
+      if (standard === "ERC721") {
+        const c = new ethers.Contract(CONTRACT_ADDRESS, ABI_ERC721, signer);
+        const bal = await c.balanceOf(account);
+        hasAccess = bal && ethers.BigNumber.from(bal).gt(0);
+      } else {
+        // ERC-1155: เช็กหลาย tokenId (ถ้า TOKEN_IDS ว่าง จะเตือนให้ระบุ หรือใช้ backend เพื่อตรวจรวมทั้งคอลเล็กชัน)
+        if (!TOKEN_IDS.length) {
+          alert("คอลเล็กชันนี้เป็น ERC-1155: โปรดกำหนด TOKEN_IDS เพื่อเช็กสิทธิ์ หรือย้ายตรวจกับ backend เพื่อรองรับทุกไอดี");
         } else {
-          alert('Ethers not loaded.');
-          throw new Error('no-ethers');
-        }
-        userAddress = await signer.getAddress();
-        const net = await provider.getNetwork();
-        addrBadge.textContent = userAddress.slice(0,6)+'…'+userAddress.slice(-4);
-        addLog(`WC connected ${userAddress} on chain ${Number(net.chainId)}`);
-        if(Number(net.chainId) !== 137){
-          addLog('WalletConnect: requesting switch to Polygon…');
-          try{
-            await wc.request({ method:'wallet_switchEthereumChain', params:[{ chainId: '0x89' }] });
-          }catch(err){
-            addLog('Switch via WC failed: '+(err && err.message || err));
+          const c = new ethers.Contract(CONTRACT_ADDRESS, ABI_ERC1155, signer);
+          for (const id of TOKEN_IDS) {
+            const bal = await c.balanceOf(account, id);
+            if (bal && ethers.BigNumber.from(bal).gt(0)) { hasAccess = true; break; }
           }
         }
-        await checkAccess();
-      }catch(e){
-        addLog('WalletConnect error: '+(e && e.message || e));
       }
+
+      document.getElementById("locked").style.display = hasAccess ? "none" : "block";
+      document.getElementById("secret").style.display = hasAccess ? "block" : "none";
+      if (!hasAccess) alert("❌ ยังไม่มีสิทธิ์เข้าถึง (ยังไม่พบน้ำหนักการถือครอง)");
     }
 
-    
-    async function smartConnect(){
-      if (typeof window !== 'undefined' && window.ethereum) {
-        try { await connect(); } catch (e) { addLog('Injected connect failed: ' + (e && e.message || e)); }
-        return;
-      }
-      addLog('No injected wallet detected – using WalletConnect.');
-      try { await connectWithWalletConnect(); } catch (e) { addLog('WalletConnect connect failed: ' + (e && e.message || e)); }
-    }
-
-    // ===== Events =====
-    $('#connect-btn').addEventListener('click', smartConnect);
-    $('#check-btn').addEventListener('click', checkAccess);
-    $('#wc-btn').addEventListener('click', connectWithWalletConnect);
-    $('#copy-log').addEventListener('click', async()=>{
-      try{ await navigator.clipboard.writeText(logEl.textContent); addLog('Copied debug log to clipboard.'); }catch(_){ addLog('Copy failed.'); }
-    });
-    $('#send-mail').addEventListener('click', (e)=>{ e.currentTarget.href = makeMailto(); });
-    $('#btn-th').addEventListener('click', ()=>setLang('th'));
-    $('#btn-en').addEventListener('click', ()=>setLang('en'));
-
-    // ===== Init =====
-    setLang('th');
-    setLinks();
-    lockUI();
-    addLog('Ready. Connect wallet and re-check to unlock holder links.');
-  })();
+    document.getElementById("connect").addEventListener("click", verifyAccess);
   </script>
 </body>
 </html>
